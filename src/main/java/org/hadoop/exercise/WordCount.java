@@ -15,7 +15,7 @@ import java.io.IOException;
 /**
  * @author Krisztian_Horvath
  */
-public class WordCount1 {
+public class WordCount {
 
     public static class WordCountMapper extends Mapper<Object, Text, Text, IntWritable> {
         private final static IntWritable one = new IntWritable(1);
@@ -43,7 +43,7 @@ public class WordCount1 {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         Job job = new Job(conf, "word count");
-        job.setJarByClass(WordCount1.class);
+        job.setJarByClass(WordCount.class);
         job.setMapperClass(WordCountMapper.class);
         job.setReducerClass(WordCountReducer.class);
         job.setOutputKeyClass(Text.class);
