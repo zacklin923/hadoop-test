@@ -63,7 +63,7 @@ public class ReduceJoin {
         MultipleInputs.addInputPath(job, new Path(args[1]), TextInputFormat.class, AccountRecordMapper.class);
         Path outputPath = new Path(args[2]);
         FileOutputFormat.setOutputPath(job, outputPath);
-        outputPath.getFileSystem(conf).delete(outputPath);
+        outputPath.getFileSystem(conf).delete(outputPath, true);
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }
