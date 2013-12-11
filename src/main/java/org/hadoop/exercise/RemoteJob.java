@@ -21,6 +21,7 @@ public class RemoteJob {
         Configuration conf = new Configuration();
         conf.set("fs.defaultFS", "hdfs://localhost:8020");
         conf.set("mapred.job.tracker", "localhost:8021");
+        conf.set("yarn.resourcemanager.address", "localhost:8032");
 
         Job job = new Job(conf, "word count1");
         job.setJarByClass(RemoteJob.class);
