@@ -18,6 +18,8 @@ public class RemoteJob {
 
     public static void main(String[] args) throws Exception {
 
+        System.getProperties().put("hadoop.home.dir", "d:\\Projects\\hadoop-test\\");
+
         Configuration conf = new Configuration();
         conf.set("fs.defaultFS", "hdfs://localhost:8020");
         conf.set("mapred.job.tracker", "localhost:8021");
@@ -33,9 +35,6 @@ public class RemoteJob {
         FileInputFormat.addInputPath(job, new Path("wc"));
         FileOutputFormat.setOutputPath(job, new Path("wc-out"));
 
-        JobRunner runner = new JobRunner();
-        runner.setJob(job);
-        runner.setVerbose(true);
-        runner.call();
+        job.waitForCompletion(true);
     }
 }
