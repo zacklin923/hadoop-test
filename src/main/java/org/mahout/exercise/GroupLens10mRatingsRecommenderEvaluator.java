@@ -5,7 +5,7 @@ import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
 import org.apache.mahout.cf.taste.example.grouplens.GroupLensDataModel;
 import org.apache.mahout.cf.taste.impl.eval.AverageAbsoluteDifferenceRecommenderEvaluator;
-import org.apache.mahout.cf.taste.impl.neighborhood.NearestNUserNeighborhood;
+import org.apache.mahout.cf.taste.impl.neighborhood.ThresholdUserNeighborhood;
 import org.apache.mahout.cf.taste.impl.recommender.GenericUserBasedRecommender;
 import org.apache.mahout.cf.taste.impl.similarity.PearsonCorrelationSimilarity;
 import org.apache.mahout.cf.taste.model.DataModel;
@@ -27,7 +27,7 @@ public class GroupLens10mRatingsRecommenderEvaluator {
             @Override
             public Recommender buildRecommender(DataModel model) throws TasteException {
                 UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
-                UserNeighborhood neighborhood = new NearestNUserNeighborhood(500, similarity, model);
+                UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.5, similarity, model);
                 return new GenericUserBasedRecommender(model, neighborhood, similarity);
             }
         };
