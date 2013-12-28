@@ -18,7 +18,7 @@ import org.apache.mahout.common.RandomUtils;
 import java.io.File;
 
 /**
- * Author: Krisztian Horvath
+ * @author Krisztian Horvath
  */
 public class RecommenderIntroStatsEvaluator {
 

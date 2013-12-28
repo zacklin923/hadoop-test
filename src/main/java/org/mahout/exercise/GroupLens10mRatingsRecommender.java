@@ -13,7 +13,7 @@ import org.apache.mahout.cf.taste.similarity.UserSimilarity;
 import java.io.File;
 
 /**
- * Author: Krisztian Horvath
+ * @author Krisztian Horvath
  */
 public class GroupLens10mRatingsRecommender {
 
