@@ -1,6 +1,7 @@
 package org.mahout.exercise;
 
 import org.apache.mahout.cf.taste.common.TasteException;
+import org.apache.mahout.cf.taste.common.Weighting;
 import org.apache.mahout.cf.taste.eval.RecommenderBuilder;
 import org.apache.mahout.cf.taste.eval.RecommenderEvaluator;
 import org.apache.mahout.cf.taste.example.grouplens.GroupLensDataModel;
@@ -26,7 +27,7 @@ public class GroupLens10mRatingsRecommenderEvaluator {
         RecommenderBuilder recommenderBuilder = new RecommenderBuilder() {
             @Override
             public Recommender buildRecommender(DataModel model) throws TasteException {
-                UserSimilarity similarity = new PearsonCorrelationSimilarity(model);
+                UserSimilarity similarity = new PearsonCorrelationSimilarity(model, Weighting.WEIGHTED);
                 UserNeighborhood neighborhood = new ThresholdUserNeighborhood(0.5, similarity, model);
                 return new GenericUserBasedRecommender(model, neighborhood, similarity);
             }
