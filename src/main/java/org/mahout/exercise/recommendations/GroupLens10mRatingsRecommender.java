@@ -1,4 +1,4 @@
-package org.mahout.exercise;
+package org.mahout.exercise.recommendations;
 
 import org.apache.mahout.cf.taste.example.grouplens.GroupLensDataModel;
 import org.apache.mahout.cf.taste.impl.eval.LoadEvaluator;
