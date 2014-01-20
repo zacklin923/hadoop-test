@@ -1,16 +1,19 @@
 /**
- * Copyright (c) 2010 Yahoo! Inc. All rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *      http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License. See accompanying LICENSE file.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.oozie.client.rest;
 
@@ -41,7 +44,9 @@ public interface JsonTags {
     public static final String WORKFLOW_START_TIME = "startTime";
     public static final String WORKFLOW_END_TIME = "endTime";
     public static final String WORKFLOW_USER = "user";
+    @Deprecated
     public static final String WORKFLOW_GROUP = "group";
+    public static final String WORKFLOW_ACL = "acl";
     public static final String WORKFLOW_RUN = "run";
     public static final String WORKFLOW_CONSOLE_URL = "consoleUrl";
     public static final String WORKFLOW_ACTIONS = "actions";
@@ -62,6 +67,8 @@ public interface JsonTags {
     public static final String WORKFLOW_ACTION_STATUS = "status";
     public static final String WORKFLOW_ACTION_TRANSITION = "transition";
     public static final String WORKFLOW_ACTION_DATA = "data";
+    public static final String WORKFLOW_ACTION_STATS = "stats";
+    public static final String WORKFLOW_ACTION_EXTERNAL_CHILD_IDS = "externalChildIDs";
     public static final String WORKFLOW_ACTION_EXTERNAL_ID = "externalId";
     public static final String WORKFLOW_ACTION_EXTERNAL_STATUS = "externalStatus";
     public static final String WORKFLOW_ACTION_TRACKER_URI = "trackerUri";
@@ -91,7 +98,11 @@ public interface JsonTags {
     public static final String COORDINATOR_JOB_CONSOLE_URL = "consoleUrl";
     public static final String COORDINATOR_JOB_ACTIONS = "actions";
     public static final String COORDINATOR_JOB_USER = "user";
+    public static final String COORDINATOR_JOB_NUM_ACTION = "total";
+
+    @Deprecated
     public static final String COORDINATOR_JOB_GROUP = "group";
+    public static final String COORDINATOR_JOB_ACL = "acl";
     public static final String COORDINATOR_JOB_EXTERNAL_ID = "coordExternalId";
 
     public static final String COORDINATOR_ACTION_ID = "id";
@@ -102,10 +113,12 @@ public interface JsonTags {
     public static final String COORDINATOR_ACTION_NUMBER = "actionNumber";
     public static final String COORDINATOR_ACTION_CREATED_TIME = "createdTime";
     public static final String COORDINATOR_ACTION_EXTERNALID = "externalId";
+    public static final String COORDINATOR_JOB_BUNDLE_ID = "bundleId";
     public static final String COORDINATOR_ACTION_LAST_MODIFIED_TIME = "lastModifiedTime";
     public static final String COORDINATOR_ACTION_NOMINAL_TIME = "nominalTime";
     public static final String COORDINATOR_ACTION_STATUS = "status";
     public static final String COORDINATOR_ACTION_MISSING_DEPS = "missingDependencies";
+    public static final String COORDINATOR_ACTION_PUSH_MISSING_DEPS = "pushMissingDependencies";
     public static final String COORDINATOR_ACTION_EXTERNAL_STATUS = "externalStatus";
     public static final String COORDINATOR_ACTION_TRACKER_URI = "trackerUri";
     public static final String COORDINATOR_ACTION_CONSOLE_URL = "consoleUrl";
@@ -129,9 +142,28 @@ public interface JsonTags {
     public static final String BUNDLE_JOB_CREATED_TIME = "createdTime";
     public static final String BUNDLE_JOB_CONSOLE_URL = "consoleUrl";
     public static final String BUNDLE_JOB_USER = "user";
+    @Deprecated
     public static final String BUNDLE_JOB_GROUP = "group";
+    public static final String BUNDLE_JOB_ACL = "acl";
     public static final String BUNDLE_JOB_EXTERNAL_ID = "bundleExternalId";
     public static final String BUNDLE_COORDINATOR_JOBS = "bundleCoordJobs";
+
+    public static final String SLA_SUMMARY_LIST = "slaSummaryList";
+    public static final String SLA_SUMMARY_ID = "id";
+    public static final String SLA_SUMMARY_PARENT_ID = "parentId";
+    public static final String SLA_SUMMARY_APP_NAME = "appName";
+    public static final String SLA_SUMMARY_APP_TYPE = "appType";
+    public static final String SLA_SUMMARY_USER = "user";
+    public static final String SLA_SUMMARY_NOMINAL_TIME = "nominalTime";
+    public static final String SLA_SUMMARY_EXPECTED_START = "expectedStart";
+    public static final String SLA_SUMMARY_ACTUAL_START = "actualStart";
+    public static final String SLA_SUMMARY_EXPECTED_END = "expectedEnd";
+    public static final String SLA_SUMMARY_ACTUAL_END = "actualEnd";
+    public static final String SLA_SUMMARY_EXPECTED_DURATION = "expectedDuration";
+    public static final String SLA_SUMMARY_ACTUAL_DURATION = "actualDuration";
+    public static final String SLA_SUMMARY_JOB_STATUS = "jobStatus";
+    public static final String SLA_SUMMARY_SLA_STATUS = "slaStatus";
+    public static final String SLA_SUMMARY_LAST_MODIFIED = "lastModified";
 
     public static final String TO_STRING = "toString";
 
@@ -171,5 +203,23 @@ public interface JsonTags {
     public static final Object BUNDLE_JOB_TOTAL = "total";
     public static final Object BUNDLE_JOB_OFFSET = "offset";
     public static final Object BUNDLE_JOB_LEN = "len";
+
+    public static final String BULK_RESPONSE_BUNDLE = "bulkbundle";
+    public static final String BULK_RESPONSE_COORDINATOR = "bulkcoord";
+    public static final String BULK_RESPONSE_ACTION = "bulkaction";
+    public static final Object BULK_RESPONSES = "bulkresponses";
+    public static final Object BULK_RESPONSE_TOTAL = "total";
+    public static final Object BULK_RESPONSE_OFFSET = "offset";
+    public static final Object BULK_RESPONSE_LEN = "len";
+
+    public static final String AVAILABLE_TIME_ZONES = "available-timezones";
+    public static final String TIME_ZOME_DISPLAY_NAME = "timezoneDisplayName";
+    public static final String TIME_ZONE_ID = "timezoneId";
+
+    public static final String JMS_TOPIC_PATTERN = "jmsTopicPattern";
+    public static final String JMS_JNDI_PROPERTIES = "jmsJNDIProps";
+    public static final String JMS_TOPIC_PREFIX = "jmsTopicPrefix";
+
+    public static final String JMS_TOPIC_NAME = "jmsTopicName";
 
 }

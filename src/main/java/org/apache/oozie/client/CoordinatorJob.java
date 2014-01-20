@@ -1,16 +1,19 @@
 /**
- * Copyright (c) 2010 Yahoo! Inc. All rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License. See accompanying LICENSE file.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.oozie.client;
 
@@ -76,7 +79,7 @@ public interface CoordinatorJob extends Job {
      *
      * @return the frequency for the coord job in unit of minute
      */
-    int getFrequency();
+    String getFrequency();
 
     /**
      * Return the timeUnit for the coord job, it could be, Timeunit enum, e.g. MINUTE, HOUR, DAY, WEEK or MONTH
@@ -150,10 +153,20 @@ public interface CoordinatorJob extends Job {
 
     /**
      * Return the application group.
+     * <p/>
+     * Use the {@link #getAcl()} method instead.
      *
      * @return the application group.
      */
+    @Deprecated
     String getGroup();
+
+    /**
+     * Return the workflow job group.
+     *
+     * @return the workflow job group.
+     */
+    String getAcl();
 
     /**
      * Return the BundleId.

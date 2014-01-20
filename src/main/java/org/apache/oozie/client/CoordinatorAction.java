@@ -1,16 +1,19 @@
 /**
- * Copyright (c) 2010 Yahoo! Inc. All rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License. See accompanying LICENSE file.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.oozie.client;
 
@@ -102,12 +105,20 @@ public interface CoordinatorAction {
     Status getStatus();
 
     /**
-     * Return the missing dependencies for the particular action
+     * Return the PULL-based (directory based) missing dependencies for the
+     * particular action
      *
      * @return the missing dependencies for the particular action
      */
     String getMissingDependencies();
 
+    /**
+     * Return the PUSH-based (e.d HCatalog partition-based ) missing
+     * dependencies for the particular action
+     *
+     * @return the missing dependencies for the particular action
+     */
+    String getPushMissingDependencies();
 
     /**
      * Return the external status of the application instance.

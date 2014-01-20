@@ -6,27 +6,50 @@
  * to you under the Apache License, Version 2.0 (the
  * "License"); you may not use this file except in compliance
  * with the License.  You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.oozie.cli;
+package org.apache.oozie.client.event;
 
 /**
- * Exception thrown by OozieCLI
+ * This interface defines an Event that can be generated via Job status changes
+ * or SLA related events
  */
-public class OozieCLIException extends Exception {
+public abstract class Event {
 
-    public OozieCLIException(String msg) {
-        super(msg);
+    protected MessageType msgType;
+
+    /**
+     * Events will be messages, broadly of type - Job related or SLA related
+     */
+    public static enum MessageType {
+        JOB, SLA
     }
 
-    public OozieCLIException(String msg, Throwable throwable) {
-        super(msg, throwable);
+    public Event(MessageType msgType) {
+        this.msgType = msgType;
     }
+
+    public Event() {
+    }
+
+    /**
+     * Get the MessageType of the event
+     *
+     * @return MessageType
+     */
+    public MessageType getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(MessageType type) {
+        msgType = type;
+    }
+
 }

@@ -1,16 +1,19 @@
 /**
- * Copyright (c) 2010 Yahoo! Inc. All rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License. See accompanying LICENSE file.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.oozie.client;
 
@@ -29,6 +32,7 @@ public interface WorkflowAction {
         RUNNING,
         OK,
         ERROR,
+        USER_RETRY,
         START_RETRY,
         START_MANUAL,
         DONE,
@@ -86,6 +90,27 @@ public interface WorkflowAction {
      * @return the number of retries of the action.
      */
     int getRetries();
+    
+    /**
+     * Return the number of user retry of the action.
+     *
+     * @return the number of user retry of the action.
+     */
+    int getUserRetryCount();
+    
+    /**
+     * Return the max number of user retry of the action.
+     *
+     * @return the max number of user retry of the action.
+     */
+    int getUserRetryMax();
+    
+    /**
+     * Return the interval of user retry of the action, in minutes.
+     *
+     * @return the interval of user retry of the action, in minutes.
+     */
+    int getUserRetryInterval();
 
     /**
      * Return the start time of the action action.
@@ -114,6 +139,20 @@ public interface WorkflowAction {
      * @return the action data.
      */
     String getData();
+
+    /**
+     * Return the action statistics.
+     *
+     * @return the action statistics.
+     */
+    String getStats();
+
+    /**
+     * Return the external child IDs of the action.
+     *
+     * @return the external child IDs of the action.
+     */
+    String getExternalChildIDs();
 
     /**
      * Return the external ID of the action.

@@ -1,29 +1,34 @@
 /**
- * Copyright (c) 2010 Yahoo! Inc. All rights reserved.
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License. See accompanying LICENSE file.
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.apache.oozie.cli;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.GnuParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.HelpFormatter;
 
-import java.io.PrintWriter;
-import java.text.MessageFormat;
-import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.LinkedHashMap;
+import java.text.MessageFormat;
+import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Command line parser based on Apache common-cli 1.x that supports subcommands.
@@ -122,13 +127,15 @@ public class CLIParser {
     }
 
     public String shortHelp() {
-        return "use 'help' sub-command for help details";
+        return "use 'help [sub-command]' for help details";
     }
 
     /**
      * Print the help for the parser to standard output.
+     * 
+     * @param commandLine the command line
      */
-    public void showHelp() {
+    public void showHelp(CommandLine commandLine) {
         PrintWriter pw = new PrintWriter(System.out);
         pw.println("usage: ");
         for (String s : cliHelp) {
@@ -136,14 +143,21 @@ public class CLIParser {
         }
         pw.println();
         HelpFormatter formatter = new HelpFormatter();
-        for (Map.Entry<String, Options> entry : commands.entrySet()) {
-            String s = LEFT_PADDING + cliName + " " + entry.getKey() + " ";
-            if (entry.getValue().getOptions().size() > 0) {
-                pw.println(s + "<OPTIONS> " + commandsHelp.get(entry.getKey()));
-                formatter.printOptions(pw, 100, entry.getValue(), s.length(), 3);
+        Set<String> commandsToPrint = commands.keySet();
+        String[] args = commandLine.getArgs();
+        if (args.length > 0 && commandsToPrint.contains(args[0])) {
+            commandsToPrint = new HashSet<String>();
+            commandsToPrint.add(args[0]);
+        }
+        for (String comm : commandsToPrint) {
+            Options opts = commands.get(comm);
+            String s = LEFT_PADDING + cliName + " " + comm + " ";
+            if (opts.getOptions().size() > 0) {
+                pw.println(s + "<OPTIONS> " + commandsHelp.get(comm));
+                formatter.printOptions(pw, 100, opts, s.length(), 3);
             }
             else {
-                pw.println(s + commandsHelp.get(entry.getKey()));
+                pw.println(s + commandsHelp.get(comm));
             }
             pw.println();
         }
