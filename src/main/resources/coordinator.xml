@@ -1,0 +1,8 @@
+<coordinator-app name="MY_APP" frequency="1" start="2014-01-01T05:00Z" end="2015-01-01T06:00Z" timezone="UTC"
+                 xmlns="uri:oozie:coordinator:0.1">
+    <action>
+        <workflow>
+            <app-path>hdfs://localhost:9000/tmp/workflows</app-path>
+        </workflow>
+    </action>
+</coordinator-app>
