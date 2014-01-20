@@ -16,7 +16,7 @@ public class OozieJob {
     public static void main(String args[]) throws OozieClientException, InterruptedException {
         OozieClient oozieClient = new OozieClient("http://localhost:8080/oozie/");
         Properties conf = oozieClient.createConfiguration();
-        conf.setProperty(OozieClient.APP_PATH, "hdfs://localhost:9000/workflow.xml");
+        conf.setProperty(OozieClient.COORDINATOR_APP_PATH, "hdfs://localhost:9000/coord/");
         conf.setProperty("nameNode", "hdfs://localhost:9000");
         conf.setProperty("inputDir", "/oozie/inputdir");
         conf.setProperty("outputDir", "/oozie/outputdir");
