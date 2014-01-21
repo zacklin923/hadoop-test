@@ -1,0 +1,20 @@
+<workflow-app xmlns="uri:oozie:workflow:0.1" name="appName-wf">
+    <start to="java-node"/>
+    <action name="java-node">
+        <java>
+            <!-- use yarn resource manager on hadoop 2 -->
+            <job-tracker>localhost:8032</job-tracker>
+            <name-node>hdfs://localhost:9000</name-node>
+            <main-class>org.oozie.exercise.TestJob</main-class>
+            <arg>arg1</arg>
+            <arg>arg2</arg>
+            <capture-output/>
+        </java>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+    <kill name="fail">
+        <message>Java failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
