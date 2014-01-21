@@ -1,0 +1,33 @@
+<workflow-app name="wordcount-wf" xmlns="uri:oozie:workflow:0.1">
+    <start to="wordcount"/>
+    <action name="wordcount">
+        <map-reduce>
+            <job-tracker>localhost:8032</job-tracker>
+            <name-node>hdfs://localhost:9000</name-node>
+            <configuration>
+                <property>
+                    <name>mapred.mapper.class</name>
+                    <value>org.apache.hadoop.mapreduce.lib.map.TokenCounterMapper</value>
+                </property>
+                <property>
+                    <name>mapred.reducer.class</name>
+                    <value>org.apache.hadoop.mapreduce.lib.reduce.IntSumReducer</value>
+                </property>
+                <property>
+                    <name>mapred.input.dir</name>
+                    <value>/wc-in</value>
+                </property>
+                <property>
+                    <name>mapred.output.dir</name>
+                    <value>/wc-out</value>
+                </property>
+            </configuration>
+        </map-reduce>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+    <kill name="kill">
+        <message>Java failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <end name="end"/>
+</workflow-app>
