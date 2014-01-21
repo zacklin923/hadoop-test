@@ -10,6 +10,10 @@ import org.apache.hadoop.util.Tool;
  */
 public class TestJob extends Configured implements Tool {
 
+    public static void main(String[] args) {
+        System.out.println("Called with args: " + args);
+    }
+
     @Override
     public int run(String[] strings) throws Exception {
         System.out.println("Called with args: " + strings);
