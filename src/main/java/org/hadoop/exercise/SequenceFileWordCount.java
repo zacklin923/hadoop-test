@@ -11,11 +11,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 /**
  * @author Krisztian_Horvath
  */
-public class SequenceFileWordCout {
+public class SequenceFileWordCount {
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         Job job = new Job(conf, "sequence word count");
-        job.setJarByClass(SequenceFileWordCout.class);
+        job.setJarByClass(SequenceFileWordCount.class);
         job.setMapperClass(WordCount.WordCountMapper.class);
         job.setReducerClass(WordCount.WordCountReducer.class);
         job.setOutputKeyClass(Text.class);
