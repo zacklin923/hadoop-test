@@ -20,7 +20,7 @@ public class SequenceFileWordCount {
         job.setReducerClass(WordCount.WordCountReducer.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
-        SequenceFileInputFormat.addInputPath(job, new Path(args[0]));
+        SequenceFileInputFormat.setInputPaths(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
