@@ -27,6 +27,7 @@ public class SequenceFileWriter {
         IntWritable key = new IntWritable();
         Text value = new Text("alma");
         SequenceFile.Writer writer = SequenceFile.createWriter(configuration,
+                SequenceFile.Writer.file(path),
                 SequenceFile.Writer.keyClass(IntWritable.class),
                 SequenceFile.Writer.valueClass(Text.class));
         for (int i = 0; i < 3001; i++) {
