@@ -18,7 +18,7 @@ public class SequenceFileWriter {
         Configuration configuration = new Configuration();
 
         Path path = new Path(location);
-        FileSystem fileSystem = FileSystem.get(configuration);
+        FileSystem fileSystem = path.getFileSystem(configuration);
         if (fileSystem.exists(path)) {
             fileSystem.delete(path, true);
         }
