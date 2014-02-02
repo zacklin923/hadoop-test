@@ -1,0 +1,44 @@
+<workflow-app name="wf-example-w-decision" xmlns="uri:oozie:workflow:0.1">
+
+    <start to="startNode"/>
+
+    <action name="startNode">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>org.oozie.NoOpAction</main-class>
+            <arg>${number}</arg>
+            <capture-output/>
+        </java>
+        <ok to="decision"/>
+        <error to="fail"/>
+    </action>
+
+    <decision name="decision">
+        <switch>
+            <case to="case1">
+                ${wf:actionData('startNode')['outNumber'] lt 10}
+            </case>
+            <default to="end"/>
+        </switch>
+    </decision>
+    
+    <action name="case1">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>org.hadoop.SequenceFileWriter</main-class>
+            <arg>${seq.location}</arg>
+            <arg>${wf:actionData('startNode')['outNumber']}</arg>
+        </java>
+        <ok to="end"/>
+        <error to="fail"/>
+    </action>
+
+    <kill name="fail">
+        <message>Java failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+
+    <end name="end"/>
+
+</workflow-app>

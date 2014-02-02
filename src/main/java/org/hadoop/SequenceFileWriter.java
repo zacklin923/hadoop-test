@@ -25,7 +25,7 @@ public class SequenceFileWriter {
         fileSystem.create(path);
 
         IntWritable key = new IntWritable();
-        Text value = new Text("alma");
+        Text value = args[1] == null ? new Text("alma") : new Text(args[1]);
         SequenceFile.Writer writer = SequenceFile.createWriter(configuration,
                 SequenceFile.Writer.file(path),
                 SequenceFile.Writer.keyClass(IntWritable.class),
