@@ -1,0 +1,49 @@
+<workflow-app name="wf-example-w-decision" xmlns="uri:oozie:workflow:0.1">
+
+    <start to="startNode"/>
+
+    <action name="startNode">
+        <java>
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <main-class>org.oozie.DoubleAction</main-class>
+            <arg>${number}</arg>
+            <capture-output/>
+        </java>
+        <ok to="secondNode"/>
+        <error to="fail"/>
+    </action>
+
+    <action name="secondNode">
+        <sub-workflow>
+            <app-path>${secondPath}</app-path>
+            <configuration>
+                <property>
+                    <name>jobTracker</name>
+                    <value>${jobTracker}</value>
+                </property>
+                <property>
+                    <name>nameNode</name>
+                    <value>${nameNode}</value>
+                </property>
+                <property>
+                    <name>number</name>
+                    <value>${wf:actionData('startNode')['outNumber']}</value>
+                </property>
+                <property>
+                    <name>location</name>
+                    <value>${location}</value>
+                </property>
+            </configuration>
+        </sub-workflow>
+        <ok to="end"/>
+        <error to="kill"/>
+    </action>
+
+    <kill name="fail">
+        <message>Java failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+
+    <end name="end"/>
+
+</workflow-app>
