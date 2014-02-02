@@ -28,7 +28,7 @@
             <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
             <main-class>org.hadoop.SequenceFileWriter</main-class>
-            <arg>${seq.location}</arg>
+            <arg>${location}</arg>
             <arg>${wf:actionData('startNode')['outNumber']}</arg>
         </java>
         <ok to="end"/>
