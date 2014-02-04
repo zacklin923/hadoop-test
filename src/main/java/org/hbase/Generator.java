@@ -14,6 +14,8 @@ import java.util.Random;
  * hbase shell
  * create 'access_logs', 'details'
  * create 'summary_user', {NAME=>'details', VERSIONS=>1}
+ * <p/>
+ * scan 'access_logs', {LIMIT => 5}
  */
 public class Generator {
     public static void main(String[] args) throws Exception {
