@@ -10,6 +10,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.hazelcast</groupId>
+            <artifactId>hazelcast-client</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.flume</groupId>
+            <artifactId>flume-ng-embedded-agent</artifactId>
+            <version>1.4.0</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-hadoop-compat</artifactId>
             <version>0.96.1-hadoop2</version>
@@ -18,11 +28,6 @@
             <groupId>org.apache.hbase</groupId>
             <artifactId>hbase-server</artifactId>
             <version>0.96.1-hadoop2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.flume</groupId>
-            <artifactId>flume-ng-sdk</artifactId>
-            <version>1.4.0</version>
         </dependency>
         <dependency>
             <groupId>javax.jms</groupId>
