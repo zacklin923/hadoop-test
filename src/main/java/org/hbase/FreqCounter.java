@@ -18,6 +18,9 @@ import java.io.IOException;
 
 /**
  * User: keyki
+ * <p/>
+ * bug: ZeroCopyLiteralByteString cannot access its superclass com.google.protobuf.LiteralByteString
+ * fix: HADOOP_CLASSPATH=/path/to/hbase-protocol.jar
  */
 public class FreqCounter {
 
@@ -43,7 +46,6 @@ public class FreqCounter {
     }
 
     public static class Reducer extends TableReducer<ImmutableBytesWritable, IntWritable, ImmutableBytesWritable> {
-
         public void reduce(ImmutableBytesWritable key, Iterable<IntWritable> values, Context context)
                 throws IOException, InterruptedException {
             int sum = 0;
