@@ -1,11 +1,11 @@
 package org.flume;
 
-import com.cloudera.cdk.morphline.api.Command;
-import com.cloudera.cdk.morphline.api.CommandBuilder;
-import com.cloudera.cdk.morphline.api.MorphlineContext;
-import com.cloudera.cdk.morphline.api.Record;
-import com.cloudera.cdk.morphline.base.AbstractCommand;
 import com.typesafe.config.Config;
+import org.kitesdk.morphline.api.Command;
+import org.kitesdk.morphline.api.CommandBuilder;
+import org.kitesdk.morphline.api.MorphlineContext;
+import org.kitesdk.morphline.api.Record;
+import org.kitesdk.morphline.base.AbstractCommand;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -31,18 +31,20 @@ public class RegexFilterBuilder implements CommandBuilder {
 
         private final String fieldName;
         private final Pattern pattern;
+        private final boolean reversePattern;
 
         public RegexFilter(CommandBuilder builder, Config config, Command parent, Command child, MorphlineContext context) {
             super(builder, config, parent, child, context);
             this.fieldName = getConfigs().getString(config, "fieldName");
             this.pattern = Pattern.compile(getConfigs().getString(config, "pattern"));
+            this.reversePattern = getConfigs().getBoolean(config, "reversePattern");
         }
 
         @Override
         protected boolean doProcess(Record record) {
             for (Object value : record.get(fieldName)) {
                 Matcher matcher = pattern.matcher(value.toString());
-                if (matcher.find()) {
+                if (matcher.find() != reversePattern) {
                     return false;
                 }
             }

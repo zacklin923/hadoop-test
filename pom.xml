@@ -86,9 +86,9 @@
             <version>1.0.9</version>
         </dependency>
         <dependency>
-            <groupId>com.cloudera.cdk</groupId>
-            <artifactId>cdk-morphlines-core</artifactId>
-            <version>0.9.1-SNAPSHOT</version>
+            <groupId>org.kitesdk</groupId>
+            <artifactId>kite-morphlines-core</artifactId>
+            <version>0.11.0</version>
         </dependency>
     </dependencies>
 
@@ -102,8 +102,12 @@
             </snapshots>
         </repository>
         <repository>
-            <id>sequenceiq</id>
-            <url>http://sequenceiq.github.io/sequenceiq-maven-repo/</url>
+            <id>cdh.repo</id>
+            <url>https://repository.cloudera.com/artifactory/cloudera-repos</url>
+            <name>Cloudera Repositories</name>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
 
