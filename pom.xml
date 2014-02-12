@@ -87,7 +87,7 @@
         </dependency>
         <dependency>
             <groupId>com.cloudera.cdk</groupId>
-            <artifactId>cdk-morphlines-all</artifactId>
+            <artifactId>cdk-morphlines-core</artifactId>
             <version>0.9.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
