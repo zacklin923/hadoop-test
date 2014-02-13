@@ -90,6 +90,11 @@
             <artifactId>cdk-morphlines-core</artifactId>
             <version>0.9.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>org.kitesdk</groupId>
+            <artifactId>kite-morphlines-core</artifactId>
+            <version>0.11.0</version>
+        </dependency>
     </dependencies>
 
     <repositories>

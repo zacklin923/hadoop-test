@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 /**
  * User: keyki
  */
-public class RegexFilterBuilder implements CommandBuilder {
+public class RegexFilterBuilderCdk implements CommandBuilder {
 
     @Override
     public Collection<String> getNames() {
