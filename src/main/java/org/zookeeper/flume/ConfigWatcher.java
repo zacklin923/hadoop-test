@@ -8,6 +8,7 @@ import org.apache.zookeeper.ZooKeeper;
 import org.apache.zookeeper.data.Stat;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.zookeeper.Executor;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
@@ -88,6 +89,8 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
                         + " -c " + flumeHome + "/conf";
                 LOGGER.info("Running process {}", exec);
                 process = Runtime.getRuntime().exec(exec);
+                new Executor.StreamWriter(process.getInputStream(), System.out);
+                new Executor.StreamWriter(process.getErrorStream(), System.out);
             }
         } catch (KeeperException | InterruptedException | IOException e) {
             LOGGER.error("Error occurred during process run.", e);

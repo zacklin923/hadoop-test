@@ -55,11 +55,11 @@ public class Executor implements Watcher, Runnable, DataMonitor.DataMonitorListe
         }
     }
 
-    private static class StreamWriter extends Thread {
+    public static class StreamWriter extends Thread {
         private OutputStream outputStream;
         private InputStream inputStream;
 
-        StreamWriter(InputStream inputStream, OutputStream outputStream) {
+        public StreamWriter(InputStream inputStream, OutputStream outputStream) {
             this.inputStream = inputStream;
             this.outputStream = outputStream;
             start();
