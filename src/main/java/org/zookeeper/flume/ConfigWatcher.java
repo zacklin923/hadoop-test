@@ -162,7 +162,7 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
     }
 
     public static void main(String[] args) throws IOException {
-        new ConfigWatcher("keyki.hu:2181", "/companyA/flume", "/usr/local/apache-flume-1.5.0-SNAPSHOT-bin").run();
+        new ConfigWatcher("localhost:2181", "/companyA/flume", "/usr/local/apache-flume-1.5.0-SNAPSHOT-bin").run();
     }
 
 }
