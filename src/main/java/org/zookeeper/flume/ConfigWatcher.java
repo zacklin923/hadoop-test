@@ -10,6 +10,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.Properties;
@@ -22,12 +24,12 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigWatcher.class);
     private final ZooKeeper zooKeeper;
     private final String root;
-    private String exec[];
+    private final String flumeHome;
     private Process process;
 
-    public ConfigWatcher(String hostPort, String root, String[] exec) throws IOException {
-        this.exec = exec;
+    public ConfigWatcher(String hostPort, String root, String flumeHome) throws IOException {
         this.root = root;
+        this.flumeHome = flumeHome;
         this.zooKeeper = new ZooKeeper(hostPort, 3000, this);
     }
 
@@ -81,11 +83,25 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
                 killProcess();
                 FlumeProperties properties = loadProperties(data);
                 replaceSinkPath(properties, path);
-                System.out.println(properties);
+                String absolutePath = writePropertiesToFile(properties);
+                String exec = "flume-ng agent -n " + getAgentName(properties) + " -f " + absolutePath
+                        + " -c " + flumeHome + "/conf";
+                LOGGER.info("Running process {}", exec);
+                process = Runtime.getRuntime().exec(exec);
             }
-        } catch (KeeperException | InterruptedException e) {
-            LOGGER.error("Error occurred during data fetch.", e);
+        } catch (KeeperException | InterruptedException | IOException e) {
+            LOGGER.error("Error occurred during process run.", e);
         }
+    }
+
+    private String writePropertiesToFile(FlumeProperties properties) throws IOException {
+        String fileName = root.substring(1).replaceAll("/", "-") + ".conf";
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName)) {
+            fileOutputStream.write(properties.toString().getBytes());
+        }
+        String absolutePath = new File(fileName).getAbsolutePath();
+        LOGGER.info("Properties saved to {}", absolutePath);
+        return absolutePath;
     }
 
     private void replaceSinkPath(Properties properties, String path) {
@@ -104,11 +120,22 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
 
     private Optional<String> getSinkKey(Properties properties) {
         return properties.keySet().stream().findAny().map(k -> {
-            String key = String.valueOf(k);
-            String agent = key.substring(0, key.indexOf('.'));
+            String agent = getAgentName(properties);
             String sink = properties.getProperty(agent + ".sinks");
             return agent + ".sinks." + sink;
         });
+    }
+
+    private String getAgentName(Properties properties) {
+        String agent = "";
+        Optional<String> optional = properties.keySet().stream().findAny().map(k -> {
+            String key = String.valueOf(k);
+            return key.substring(0, key.indexOf('.'));
+        });
+        if (optional.isPresent()) {
+            agent = optional.get();
+        }
+        return agent;
     }
 
     private FlumeProperties loadProperties(byte[] data) {
@@ -135,7 +162,7 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
     }
 
     public static void main(String[] args) throws IOException {
-        new ConfigWatcher("keyki.hu:2181", "/companyA/flume", null).run();
+        new ConfigWatcher("keyki.hu:2181", "/companyA/flume", "/usr/local/apache-flume-1.5.0-SNAPSHOT-bin").run();
     }
 
 }
