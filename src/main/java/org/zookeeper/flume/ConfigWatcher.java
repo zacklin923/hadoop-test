@@ -79,7 +79,7 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
             byte[] data = zooKeeper.getData(path, false, null);
             if (data != null) {
                 killProcess();
-                Properties properties = loadProperties(data);
+                FlumeProperties properties = loadProperties(data);
                 replaceSinkPath(properties, path);
                 System.out.println(properties);
             }
@@ -105,14 +105,14 @@ public class ConfigWatcher implements Watcher, AsyncCallback.StatCallback, Runna
     private Optional<String> getSinkKey(Properties properties) {
         return properties.keySet().stream().findAny().map(k -> {
             String key = String.valueOf(k);
-            String agent = key.substring(0, key.indexOf('.') - 1);
+            String agent = key.substring(0, key.indexOf('.'));
             String sink = properties.getProperty(agent + ".sinks");
             return agent + ".sinks." + sink;
         });
     }
 
-    private Properties loadProperties(byte[] data) {
-        Properties properties = new Properties();
+    private FlumeProperties loadProperties(byte[] data) {
+        FlumeProperties properties = new FlumeProperties();
         try (ByteArrayInputStream stream = new ByteArrayInputStream(data)) {
             properties.load(stream);
         } catch (IOException e) {

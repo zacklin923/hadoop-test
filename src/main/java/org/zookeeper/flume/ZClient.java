@@ -11,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Properties;
 
 /**
  * @author keyki
@@ -34,7 +33,7 @@ public class ZClient implements Watcher {
         }
     }
 
-    public void upload(Properties properties, String path) throws KeeperException, InterruptedException {
+    public void upload(FlumeProperties properties, String path) throws KeeperException, InterruptedException {
         String fullPath = zNodeRoot + path;
         createNodeIfAbsent(zNodeRoot);
         createNodeIfAbsent(fullPath);
@@ -52,7 +51,7 @@ public class ZClient implements Watcher {
 
     public static void main(String[] args) throws IOException, KeeperException, InterruptedException {
         ZClient zClient = new ZClient("localhost:2181", "/companyA");
-        Properties properties = new Properties();
+        FlumeProperties properties = new FlumeProperties();
         properties.load(zClient.getClass().getResourceAsStream("/websocket.conf"));
         zClient.upload(properties, "/flume");
     }
