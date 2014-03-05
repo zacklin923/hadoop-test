@@ -21,6 +21,9 @@ import java.io.IOException;
 
 public class MapperCleaner {
 
+    private static final String MORPHLINE_FILE = "morphlineFile";
+    private static final String MORPHLINE_ID = "morphlineId";
+
     private static class Cleaner extends Mapper<Object, Text, Text, NullWritable> {
         private static final Logger LOGGER = LoggerFactory.getLogger(Cleaner.class);
         private final Text word = new Text();
@@ -29,11 +32,12 @@ public class MapperCleaner {
 
         @Override
         protected void setup(Context context) throws IOException, InterruptedException {
-            File morphlineFile = new File("/Users/keyki/Projects/apache-flume-1.5.0-SNAPSHOT-bin/morphline2.conf");
-            String morphlineId = "morphline1";
+            File morphLineFile = new File(context.getConfiguration().get(MORPHLINE_FILE));
+            String morphLineId = context.getConfiguration().get(MORPHLINE_ID);
             RecordEmitter recordEmitter = new RecordEmitter(context, word);
             MorphlineContext morphlineContext = new MorphlineContext.Builder().build();
-            morphline = new org.kitesdk.morphline.base.Compiler().compile(morphlineFile, morphlineId, morphlineContext, recordEmitter);
+            morphline = new org.kitesdk.morphline.base.Compiler()
+                    .compile(morphLineFile, morphLineId, morphlineContext, recordEmitter);
         }
 
         @Override
@@ -90,6 +94,8 @@ public class MapperCleaner {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
+        conf.set(MORPHLINE_FILE, args[2]);
+        conf.set(MORPHLINE_ID, args[3]);
         Job job = new Job(conf, "data cleaner");
         job.setJarByClass(MapperCleaner.class);
         job.setMapperClass(Cleaner.class);
