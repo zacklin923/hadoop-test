@@ -40,24 +40,14 @@ public class MapperCleaner {
                     .compile(morphLineFile, morphLineId, morphlineContext, recordEmitter);
         }
 
-        @Override
-        protected void cleanup(Context context) throws IOException, InterruptedException {
-            processRecords();
-        }
-
         public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             record.put(Fields.ATTACHMENT_BODY, new ByteArrayInputStream(value.toString().getBytes()));
-            if (record.get(Fields.ATTACHMENT_BODY).size() > 1000) {
-                processRecords();
-            }
-        }
-
-        private void processRecords() {
             if (!morphline.process(record)) {
                 LOGGER.info("Morphline failed to process record: {}", record);
             }
             record.removeAll(Fields.ATTACHMENT_BODY);
         }
+
     }
 
     private static final class RecordEmitter implements Command {
