@@ -8,6 +8,7 @@ import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
+import org.apache.hadoop.security.UserGroupInformation;
 import org.kitesdk.morphline.api.Command;
 import org.kitesdk.morphline.api.MorphlineContext;
 import org.kitesdk.morphline.api.Record;
@@ -18,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
+import java.security.PrivilegedAction;
 
 public class MapperCleaner {
 
@@ -83,17 +85,28 @@ public class MapperCleaner {
     }
 
     public static void main(String[] args) throws Exception {
-        Configuration conf = new Configuration();
-        conf.set(MORPHLINE_FILE, args[2]);
-        conf.set(MORPHLINE_ID, args[3]);
-        Job job = new Job(conf, "data cleaner");
-        job.setJarByClass(MapperCleaner.class);
-        job.setMapperClass(Cleaner.class);
-        job.setNumReduceTasks(0);
-        job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(NullWritable.class);
-        FileInputFormat.addInputPath(job, new Path(args[0]));
-        FileOutputFormat.setOutputPath(job, new Path(args[1]));
-        System.exit(job.waitForCompletion(true) ? 0 : 1);
+        UserGroupInformation.createRemoteUser("keyki").doAs(
+                new PrivilegedAction() {
+                    @Override
+                    public Object run() {
+                        try {
+                            Configuration conf = new Configuration();
+                            conf.set(MORPHLINE_FILE, args[2]);
+                            conf.set(MORPHLINE_ID, args[3]);
+                            Job job = new Job(conf, "data cleaner");
+                            job.setJarByClass(MapperCleaner.class);
+                            job.setMapperClass(Cleaner.class);
+                            job.setNumReduceTasks(0);
+                            job.setOutputKeyClass(Text.class);
+                            job.setOutputValueClass(NullWritable.class);
+                            FileInputFormat.addInputPath(job, new Path(args[0]));
+                            FileOutputFormat.setOutputPath(job, new Path(args[1]));
+                            System.exit(job.waitForCompletion(true) ? 0 : 1);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+                });
     }
 }
